@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserWidget = ({ useId, picturePath }) => {
+const UserWidget = ({ userId, picturePath }) => {
     const [user, setUser] = useState(null); // grab user from backend
     const { palette } = useTheme();
     const navigate = useNavigate();
