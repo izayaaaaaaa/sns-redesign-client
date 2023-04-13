@@ -27,20 +27,20 @@ import FlexBetween from "components/FlexBetween";
 
 
 const Navbar = () => {
-    const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
-    const dispatch = useDispatch();
+    const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false); // detemine if we want to open up the mobile menu in small screens (toggle on/off)
+    const dispatch = useDispatch(); // dispatch actions from the reducers
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user);
-    const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+    const user = useSelector(state => state.user); // grab user information
+    const isNonMobileScreens = useMediaQuery("(min-width: 1000px)"); // check if we are below min width or higher
 
-    const theme = useTheme();
+    const theme = useTheme(); // grab theme from theme.js
     const neutralLight = theme.palette.neutral.light;
     const dark = theme.palette.neutral.dark;
-    const background = theme.platte.background.default;
+    const background = theme.palette.background.default;
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
 
-    const fullName = `${user.firstName} ${user.lastName}`;
+    const fullName = `${user.firstName} ${user.lastName}`; // grab full name from user
 
     return (
         <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -60,16 +60,11 @@ const Navbar = () => {
                         Sociopedia
                     </Typography>
                     {isNonMobileScreens && (
-                        <FlexBetween
-                            backgroundColor={neutralLight}
-                            border-Radius="9px"
-                            gap="3rem"
-                            padding="0.1rem 1.5rem"
-                        >
-                            <inputBase placeholder="Search..." /> 
-                            <IconButton>
-                                <Search />    
-                            </IconButton>   
+                        <FlexBetween backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
+                            <InputBase placeholder="Search..." />
+                                <IconButton>
+                                    <Search />    
+                                </IconButton>   
                         </FlexBetween>
                     )}
             </FlexBetween>
@@ -77,6 +72,7 @@ const Navbar = () => {
             {/* DESKTOP NAV */}
             {isNonMobileScreens ? (
                 <FlexBetween gap="2rem">
+                {/* set light/dark mode */}
                     <IconButton onClick={() => dispatch(setMode())}>
                         {theme.palette.mode === "dark" ? (
                             <DarkMode sx={{ fontSize: "25px" }} />
@@ -105,8 +101,8 @@ const Navbar = () => {
                             }}
                             input={<InputBase />}
                         >
-                            <MenuItem value={fullanem}>
-                                <Typography>{fellName}</Typography>
+                            <MenuItem value={fullName}>
+                                <Typography>{fullName}</Typography>
                             </MenuItem>
                             <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
                         </Select>
@@ -146,8 +142,10 @@ const Navbar = () => {
                     display="flex"
                     flexDirection="column"
                     justifyContent="center"
+                    alignItems="center" 
                     gap="3rem"
                     >
+                        {/* set light/dark mode */}
                         <IconButton
                         onClick={() => dispatch(setMode())}
                         sx={{ fontSize: "25px" }}
@@ -182,9 +180,7 @@ const Navbar = () => {
                                 <MenuItem value={fullName}>
                                     <Typography>{fullName}</Typography>
                                 </MenuItem>
-                                <MenuItem onClick={() => dispatch(setLogout())}>
-                                    Log <Out></Out>
-                                </MenuItem>
+                                <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
                             </Select>
                         </FormControl>
                     </FlexBetween>
