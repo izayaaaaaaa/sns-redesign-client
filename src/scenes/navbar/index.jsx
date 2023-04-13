@@ -30,7 +30,7 @@ const Navbar = () => {
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false); // detemine if we want to open up the mobile menu in small screens (toggle on/off)
     const dispatch = useDispatch(); // dispatch actions from the reducers
     const navigate = useNavigate();
-    const user = useSelector(state => state.user); // grab user information
+    const user = useSelector((state) => state.user); // grab user information
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)"); // check if we are below min width or higher
 
     const theme = useTheme(); // grab theme from theme.js
@@ -60,7 +60,12 @@ const Navbar = () => {
                         Sociopedia
                     </Typography>
                     {isNonMobileScreens && (
-                        <FlexBetween backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
+                    <FlexBetween 
+                        backgroundColor={neutralLight} 
+                        borderRadius="9px" 
+                        gap="3rem" 
+                        padding="0.1rem 1.5rem"
+                    >
                             <InputBase placeholder="Search..." />
                                 <IconButton>
                                     <Search />    
@@ -180,7 +185,9 @@ const Navbar = () => {
                                 <MenuItem value={fullName}>
                                     <Typography>{fullName}</Typography>
                                 </MenuItem>
-                                <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+                                    <MenuItem onClick={() => dispatch(setLogout())}>
+                                        Log Out
+                                    </MenuItem>
                             </Select>
                         </FormControl>
                     </FlexBetween>
