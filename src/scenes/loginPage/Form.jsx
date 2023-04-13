@@ -23,7 +23,7 @@ const registerSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),
     password: yup.string().required("required"), 
     location: yup.string().required("required"),
-    occuptation: yup.string().required("required"),
+    occupation: yup.string().required("required"),
     picture: yup.string().required("required"),
 });
 
@@ -39,7 +39,7 @@ const initialValuesRegister = {
     email: "",
     password: "",
     location: "",
-    occuptation: "",
+    occupation: "",
     picture: "",
 };
 
@@ -63,13 +63,15 @@ const Form = () => {
         for (let value in values) {
             formData.append(value, values[value]);
         }
+        formData.append("picturePath", values.picture.name);
 
-        formData.append('picturePath', values.picture.name);
-
-        const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
-            method: "POST",
-            body: formData,
-        });
+        const savedUserResponse = await fetch(
+            "http://localhost:3001/auth/register",
+            {
+                method: "POST",
+                body: formData,
+            }
+        );
         const savedUser = await savedUserResponse.json();
         onSubmitProps.resetForm();
 
@@ -95,7 +97,7 @@ const Form = () => {
             );
             navigate("/home");
         }
-    }
+    };
 
     const handleFormSubmit = async(values, onSubmitProps) => {
         if(isLogin) await login(values, onSubmitProps);
@@ -107,7 +109,6 @@ const Form = () => {
             onSubmit={handleFormSubmit}
             initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
             validationSchema={isLogin ? loginSchema : registerSchema}
-
         >
             {({
                 values, 
@@ -200,7 +201,6 @@ const Form = () => {
                                                         <EditOutlinedIcon />
                                                     </FlexBetween>
                                                 )}
-
                                             </Box>    
                                         )}
                                     </Dropzone>
@@ -241,12 +241,10 @@ const Form = () => {
                                 p: "1rem",
                                 backgroundColor: palette.primary.main,
                                 color: palette.background.alt,
-                                "&:hover": { backgroundColor: palette.primary.main },
+                                "&:hover": { color: palette.primary.main },
                             }}
                         >
-
                             {isLogin ? "LOGIN" : "REGISTER"}
-
                         </Button>
                         <Typography
                             onClick={() => {
@@ -262,15 +260,15 @@ const Form = () => {
                                 },
                             }}
                         >
-                            {isLogin ? "Don't have an account? Sign Up here." : "Already have an account? Login here."}
-
+                            {isLogin
+                                ? "Don't have an account? Sign Up here."
+                                : "Already have an account? Login here."}
                         </Typography>
                     </Box>
-
                 </form>
             )}
         </Formik>
-    )
+    );
 };
 
 export default Form;
