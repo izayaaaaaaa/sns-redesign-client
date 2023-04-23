@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
-import FlexBetween from "Components/FlexBetween";
+import FlexBetween from "components/FlexBetween";
 
 // ===========================|| VALIDATION ||=========================== //
 const registerSchema = yup.object().shape({
@@ -63,23 +63,25 @@ const Form = () => {
         for (let value in values) {
             formData.append(value, values[value]);
         }
+        formData.append("picturePath", values.picture.name);
         
-        formData.append('picturePath', values.picture.name);
-
-        const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+        const savedUserResponse = await fetch(
+        "http://localhost:3001/auth/register",
+            {
                 method: "POST",
                 body: formData,
-        });
-            const savedUser = await savedUserResponse.json();
-            onSubmitProps.resetForm();
-            
-            if (savedUser) {
-                setPageType("login");
             }
-        };
+        );
+        const savedUser = await savedUserResponse.json();
+        onSubmitProps.resetForm();
         
-        const login = async (values, onSubmitProps) => {
-            const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+        if (savedUser) {
+            setPageType("login");
+        }
+    };
+        
+    const login = async (values, onSubmitProps) => {
+        const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(values),
@@ -92,22 +94,22 @@ const Form = () => {
                     user: loggedIn.user,
                     token: loggedIn.token,
                 })
-                );
-                navigate("/home");
-            }
-        };
+            );
+            navigate("/home");
+        }
+    };
         
-        const handleFormSubmit = async (values, onSubmitProps) => {
-            if (isLogin) await login(values, onSubmitProps);
-            if (isRegister) await register(values, onSubmitProps);
-        };
+    const handleFormSubmit = async (values, onSubmitProps) => {
+        if (isLogin) await login(values, onSubmitProps);
+        if (isRegister) await register(values, onSubmitProps);
+    };
         
-        return (
-            <Formik
+    return (
+        <Formik
             onSubmit={handleFormSubmit}
             initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
             validationSchema={isLogin ? loginSchema : registerSchema}
-            >
+        >
             {({
                 values,
                 errors,
@@ -135,7 +137,9 @@ const Form = () => {
                                     onChange={handleChange}
                                     value={values.firstName}
                                     name="firstName"
-                                    error={Boolean(touched.firstName) && Boolean(errors.firstName)}
+                                    error={
+                                        Boolean(touched.firstName) && Boolean(errors.firstName)
+                                    }
                                     helperText={touched.firstName && errors.firstName}
                                     sx={{ gridColumn: "span 2" }}
                                 />
@@ -165,7 +169,9 @@ const Form = () => {
                                     onChange={handleChange}
                                     value={values.occupation}
                                     name="occupation"
-                                    error={Boolean(touched.occupation) && Boolean(errors.occupation)}
+                                    error={
+                                        Boolean(touched.occupation) && Boolean(errors.occupation)
+                                    }
                                     helperText={touched.occupation && errors.occupation}
                                     sx={{ gridColumn: "span 4" }}
                                 />
@@ -178,7 +184,7 @@ const Form = () => {
                                     <Dropzone
                                         acceptedFiles=".jpg,.jpeg,.png"
                                         multiple={false}
-                                        onDrop = {(acceptedFiles) =>
+                                        onDrop={(acceptedFiles) =>
                                             setFieldValue("picture", acceptedFiles[0])
                                         }
                                     >
@@ -269,4 +275,3 @@ const Form = () => {
 };
                                 
 export default Form;
-                                
